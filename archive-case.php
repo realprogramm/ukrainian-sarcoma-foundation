@@ -43,10 +43,10 @@ get_header();
 			<div class="cases-grid">
 				<?php while ( $cases_query->have_posts() ) : $cases_query->the_post(); ?>
 					<?php
-					$target    = get_field( 'target_amount' );
-					$collected = get_field( 'collected_amount' );
+					$target    = sarcoma_get_field_fallback( 'target_amount' );
+					$collected = sarcoma_get_field_fallback( 'collected_amount' );
 					$percent   = sarcoma_get_progress_percent( $collected, $target );
-					$status    = get_field( 'case_status' );
+					$status    = sarcoma_get_field_fallback( 'case_status' );
 					?>
 					<article class="case-card <?php echo 'completed' === $status ? 'case-card--completed' : ''; ?>" data-status="<?php echo esc_attr( $status ); ?>">
 						<?php if ( has_post_thumbnail() ) : ?>

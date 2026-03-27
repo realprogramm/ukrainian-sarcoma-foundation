@@ -9,8 +9,8 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	$report_type = get_field( 'report_type' );
-	$report_file = get_field( 'report_file' );
+	$report_type = sarcoma_get_field_fallback( 'report_type' );
+	$report_file = sarcoma_get_field_fallback( 'report_file' );
 ?>
 
 <div class="page-header">

@@ -119,10 +119,10 @@ $payment_success = isset( $_GET['payment'] ) && 'success' === $_GET['payment'];
 		<!-- Банківські реквізити -->
 		<?php if ( function_exists( 'get_field' ) ) : ?>
 			<?php
-			$bank_org   = get_field( 'bank_org_name' );
-			$bank_iban  = get_field( 'bank_iban' );
-			$bank_swift = get_field( 'bank_swift' );
-			$bank_addr  = get_field( 'bank_address' );
+			$bank_org   = sarcoma_get_field_fallback( 'bank_org_name' );
+			$bank_iban  = sarcoma_get_field_fallback( 'bank_iban' );
+			$bank_swift = sarcoma_get_field_fallback( 'bank_swift' );
+			$bank_addr  = sarcoma_get_field_fallback( 'bank_address' );
 			?>
 
 			<section class="donate-bank" id="bank-details">
@@ -168,7 +168,7 @@ $payment_success = isset( $_GET['payment'] ) && 'success' === $_GET['payment'];
 
 		<!-- QR-код -->
 		<?php if ( function_exists( 'get_field' ) ) : ?>
-			<?php $qr_code = get_field( 'qr_code_image' ); ?>
+			<?php $qr_code = sarcoma_get_field_fallback( 'qr_code_image' ); ?>
 			<?php if ( $qr_code ) : ?>
 				<section class="donate-bank" id="qr-code" style="text-align: center;">
 					<h2 class="donate-bank__title"><?php pll_esc_html_e( 'QR-код для переказу' ); ?></h2>

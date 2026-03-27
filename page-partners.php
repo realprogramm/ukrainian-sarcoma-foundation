@@ -58,7 +58,7 @@ get_header();
 
 		<!-- Презентація PDF -->
 		<?php if ( function_exists( 'get_field' ) ) : ?>
-			<?php $presentation = get_field( 'partner_presentation' ); ?>
+			<?php $presentation = sarcoma_get_field_fallback( 'partner_presentation' ); ?>
 			<?php if ( $presentation ) : ?>
 				<section class="donate-section" style="text-align: center;">
 					<h2 class="donate-section__title"><?php pll_esc_html_e( 'Презентація фонду' ); ?></h2>

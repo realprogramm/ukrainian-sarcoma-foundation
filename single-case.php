@@ -10,11 +10,11 @@ get_header();
 while ( have_posts() ) :
 	the_post();
 
-	$target    = get_field( 'target_amount' );
-	$collected = get_field( 'collected_amount' );
-	$status    = get_field( 'case_status' );
-	$age       = get_field( 'patient_age' );
-	$diagnosis = get_field( 'diagnosis' );
+	$target    = sarcoma_get_field_fallback( 'target_amount' );
+	$collected = sarcoma_get_field_fallback( 'collected_amount' );
+	$status    = sarcoma_get_field_fallback( 'case_status' );
+	$age       = sarcoma_get_field_fallback( 'patient_age' );
+	$diagnosis = sarcoma_get_field_fallback( 'diagnosis' );
 	$percent   = sarcoma_get_progress_percent( $collected, $target );
 ?>
 

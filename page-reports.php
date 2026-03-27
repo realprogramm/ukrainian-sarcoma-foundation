@@ -51,8 +51,8 @@ get_header();
 			<div class="reports-grid">
 				<?php while ( $reports->have_posts() ) : $reports->the_post(); ?>
 					<?php
-					$report_type = get_field( 'report_type' );
-					$report_file = get_field( 'report_file' );
+					$report_type = sarcoma_get_field_fallback( 'report_type' );
+					$report_file = sarcoma_get_field_fallback( 'report_file' );
 					$year = get_the_date( 'Y' );
 					?>
 					<article class="report-card" data-year="<?php echo esc_attr( $year ); ?>">

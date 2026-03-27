@@ -48,8 +48,8 @@ while ( have_posts() ) :
 				<div class="cases-grid">
 					<?php while ( $related_cases->have_posts() ) : $related_cases->the_post(); ?>
 						<?php
-						$target    = get_field( 'target_amount' );
-						$collected = get_field( 'collected_amount' );
+						$target    = sarcoma_get_field_fallback( 'target_amount' );
+						$collected = sarcoma_get_field_fallback( 'collected_amount' );
 						$percent   = sarcoma_get_progress_percent( $collected, $target );
 						?>
 						<article class="case-card">

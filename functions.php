@@ -170,6 +170,26 @@ function sarcoma_register_polylang_strings() {
 add_action( 'init', 'sarcoma_register_polylang_strings' );
 
 /**
+ * ACF fallback — якщо поле порожнє, беремо з UA-версії сторінки
+ */
+function sarcoma_get_field_fallback( $field_name, $post_id = null ) {
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	$value = function_exists( 'get_field' ) ? get_field( $field_name, $post_id ) : '';
+
+	if ( empty( $value ) && function_exists( 'pll_get_post' ) ) {
+		$ua_post_id = pll_get_post( $post_id, 'uk' );
+		if ( $ua_post_id && $ua_post_id !== $post_id ) {
+			$value = get_field( $field_name, $ua_post_id );
+		}
+	}
+
+	return $value;
+}
+
+/**
  * Підключення стилів та скриптів
  */
 function sarcoma_enqueue_assets() {

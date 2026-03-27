@@ -34,9 +34,9 @@ get_header();
 		<!-- Засновник -->
 		<?php if ( function_exists( 'get_field' ) ) : ?>
 			<?php
-			$founder_name  = get_field( 'founder_name' );
-			$founder_bio   = get_field( 'founder_bio' );
-			$founder_photo = get_field( 'founder_photo' );
+			$founder_name  = sarcoma_get_field_fallback( 'founder_name' );
+			$founder_bio   = sarcoma_get_field_fallback( 'founder_bio' );
+			$founder_photo = sarcoma_get_field_fallback( 'founder_photo' );
 			?>
 
 			<?php if ( $founder_name || $founder_bio ) : ?>
@@ -61,8 +61,8 @@ get_header();
 
 			<!-- Місія та бачення -->
 			<?php
-			$mission = get_field( 'mission_text' );
-			$vision  = get_field( 'vision_text' );
+			$mission = sarcoma_get_field_fallback( 'mission_text' );
+			$vision  = sarcoma_get_field_fallback( 'vision_text' );
 			?>
 			<?php if ( $mission || $vision ) : ?>
 				<section class="donate-section">
@@ -85,7 +85,16 @@ get_header();
 			<?php endif; ?>
 
 			<!-- Документи -->
-			<?php if ( have_rows( 'documents' ) ) : ?>
+			<?php
+			$has_docs = have_rows( 'documents' );
+			if ( ! $has_docs && function_exists( 'pll_get_post' ) ) {
+				$ua_id = pll_get_post( get_the_ID(), 'uk' );
+				if ( $ua_id && $ua_id !== get_the_ID() ) {
+					$has_docs = have_rows( 'documents', $ua_id );
+				}
+			}
+			?>
+			<?php if ( $has_docs ) : ?>
 				<section class="donate-section">
 					<h2 class="donate-section__title"><?php pll_esc_html_e( 'Документи' ); ?></h2>
 					<div class="documents-list">
@@ -106,7 +115,7 @@ get_header();
 			<?php endif; ?>
 
 			<!-- Організаційна структура -->
-			<?php $org_structure = get_field( 'org_structure' ); ?>
+			<?php $org_structure = sarcoma_get_field_fallback( 'org_structure' ); ?>
 			<?php if ( $org_structure ) : ?>
 				<section class="donate-section">
 					<h2 class="donate-section__title"><?php pll_esc_html_e( 'Організаційна структура' ); ?></h2>

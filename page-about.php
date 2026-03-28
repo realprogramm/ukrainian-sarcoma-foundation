@@ -86,8 +86,8 @@ get_header();
 
 			<!-- Документи -->
 			<?php
-			$has_docs = have_rows( 'documents' );
-			if ( ! $has_docs && function_exists( 'pll_get_post' ) ) {
+			$has_docs = function_exists( 'have_rows' ) ? have_rows( 'documents' ) : false;
+			if ( ! $has_docs && function_exists( 'pll_get_post' ) && function_exists( 'have_rows' ) ) {
 				$ua_id = pll_get_post( get_the_ID(), 'uk' );
 				if ( $ua_id && $ua_id !== get_the_ID() ) {
 					$has_docs = have_rows( 'documents', $ua_id );

@@ -9,10 +9,65 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SARCOMA_THEME_VERSION', '1.5.1' );
+define( 'SARCOMA_THEME_VERSION', '1.6.0' );
 define( 'SARCOMA_DONATE_URL', 'https://send.monobank.ua/jar/8FafTNXhpf' );
 define( 'SARCOMA_THEME_DIR', get_template_directory() );
 define( 'SARCOMA_THEME_URI', get_template_directory_uri() );
+
+/**
+ * Polylang fallback functions.
+ * Prevents Fatal Errors when Polylang plugin is not active.
+ */
+if ( ! function_exists( 'pll__' ) ) {
+	function pll__( $string ) {
+		return $string;
+	}
+}
+if ( ! function_exists( 'pll_e' ) ) {
+	function pll_e( $string ) {
+		echo $string; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+}
+if ( ! function_exists( 'pll_esc_html_e' ) ) {
+	function pll_esc_html_e( $string ) {
+		echo esc_html( $string );
+	}
+}
+if ( ! function_exists( 'pll_esc_html__' ) ) {
+	function pll_esc_html__( $string ) {
+		return esc_html( $string );
+	}
+}
+if ( ! function_exists( 'pll_esc_attr_e' ) ) {
+	function pll_esc_attr_e( $string ) {
+		echo esc_attr( $string );
+	}
+}
+if ( ! function_exists( 'pll_esc_attr__' ) ) {
+	function pll_esc_attr__( $string ) {
+		return esc_attr( $string );
+	}
+}
+if ( ! function_exists( 'pll_the_languages' ) ) {
+	function pll_the_languages( $args = array() ) {
+		return '';
+	}
+}
+if ( ! function_exists( 'pll_current_language' ) ) {
+	function pll_current_language( $field = 'slug' ) {
+		return 'uk';
+	}
+}
+if ( ! function_exists( 'pll_get_post' ) ) {
+	function pll_get_post( $post_id, $slug = '' ) {
+		return $post_id;
+	}
+}
+if ( ! function_exists( 'pll_register_string' ) ) {
+	function pll_register_string( $name, $string, $group = '', $multiline = false ) {
+		// No-op without Polylang.
+	}
+}
 
 /**
  * Theme Setup

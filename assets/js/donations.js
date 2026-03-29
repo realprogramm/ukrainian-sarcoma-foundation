@@ -1,224 +1,130 @@
 /**
- * Donations — форми донатів, вибір суми, платіжні шлюзи
+ * Donations — Zaporuka-style donation form
  *
  * @package Sarcoma_Theme
  */
 (function () {
 	'use strict';
 
-	// Стан форми
-	let selectedAmount = 500;
-	let selectedGateway = '';
 	let donationType = 'one-time';
 
 	/**
-	 * Форматування суми з пробілами
+	 * Get amount input element
 	 */
-	function formatAmount(num) {
-		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+	function getAmountInput() {
+		return document.getElementById('donateAmount');
 	}
 
 	/**
-	 * Оновити суму на кнопці "Оплатити"
+	 * Get current amount
 	 */
-	function updateSubmitButton() {
-		var amountEl = document.querySelector('.donate-submit-btn__amount');
-		if (amountEl && selectedAmount > 0) {
-			amountEl.textContent = formatAmount(selectedAmount) + ' \u20B4';
-		} else if (amountEl) {
-			amountEl.textContent = '';
+	function getCurrentAmount() {
+		var input = getAmountInput();
+		return input ? (parseInt(input.value, 10) || 0) : 0;
+	}
+
+	/**
+	 * Set amount value
+	 */
+	function setAmount(val) {
+		var input = getAmountInput();
+		if (input) {
+			val = Math.max(0, Math.min(29999, val));
+			input.value = val;
 		}
 	}
 
 	/**
-	 * Ініціалізація вибору суми
+	 * Init tabs (one-time / monthly)
 	 */
-	function initAmountButtons() {
-		const buttons = document.querySelectorAll('.donate-amount-btn');
-		const customInput = document.querySelector('.donate-custom-input');
+	function initTabs() {
+		var tabs = document.querySelectorAll('.donate-tab');
 
-		buttons.forEach(function (btn) {
-			btn.addEventListener('click', function () {
-				buttons.forEach(function (b) { b.classList.remove('active'); });
-				btn.classList.add('active');
-				selectedAmount = parseInt(btn.getAttribute('data-amount'), 10);
-
-				if (customInput) {
-					customInput.value = '';
-				}
-				updateSubmitButton();
-			});
-		});
-
-		if (customInput) {
-			customInput.addEventListener('input', function () {
-				buttons.forEach(function (b) { b.classList.remove('active'); });
-				selectedAmount = parseInt(customInput.value, 10) || 0;
-				updateSubmitButton();
-			});
-
-			customInput.addEventListener('focus', function () {
-				buttons.forEach(function (b) { b.classList.remove('active'); });
-			});
-		}
-	}
-
-	/**
-	 * Ініціалізація вибору платіжного шлюзу
-	 */
-	function initGatewayButtons() {
-		const buttons = document.querySelectorAll('.payment-gateway-btn');
-
-		buttons.forEach(function (btn) {
-			btn.addEventListener('click', function () {
-				buttons.forEach(function (b) { b.classList.remove('active'); });
-				btn.classList.add('active');
-				selectedGateway = btn.getAttribute('data-gateway');
-			});
-		});
-	}
-
-	/**
-	 * Ініціалізація типу донату (разовий / підписка)
-	 */
-	function initDonationType() {
-		const params = new URLSearchParams(window.location.search);
+		// Check URL params
+		var params = new URLSearchParams(window.location.search);
 		if (params.get('type') === 'subscribe') {
 			donationType = 'subscribe';
-			var subscribeTab = document.querySelector('[data-tab="subscribe"]');
-			if (subscribeTab) {
-				subscribeTab.click();
-			}
+			tabs.forEach(function (t) {
+				t.classList.toggle('active', t.getAttribute('data-donate-type') === 'subscribe');
+			});
 		}
 
-		document.querySelectorAll('[data-donate-type]').forEach(function (btn) {
-			btn.addEventListener('click', function () {
-				donationType = btn.getAttribute('data-donate-type');
-				document.querySelectorAll('[data-donate-type]').forEach(function (b) {
-					b.classList.remove('active');
-				});
-				btn.classList.add('active');
+		tabs.forEach(function (tab) {
+			tab.addEventListener('click', function () {
+				donationType = tab.getAttribute('data-donate-type');
+				tabs.forEach(function (t) { t.classList.remove('active'); });
+				tab.classList.add('active');
 			});
 		});
 	}
 
 	/**
-	 * Відправити платіж
+	 * Init quick-add buttons (+100, +500, +1000)
+	 */
+	function initQuickAdd() {
+		document.querySelectorAll('.donate-quick-btn').forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				var addVal = parseInt(btn.getAttribute('data-add'), 10) || 0;
+				var current = getCurrentAmount();
+				setAmount(current + addVal);
+			});
+		});
+	}
+
+	/**
+	 * Init expandable alt cards
+	 */
+	function initExpandableCards() {
+		document.querySelectorAll('.donate-alt-card--expandable').forEach(function (card) {
+			var header = card.querySelector('.donate-alt-card__header');
+			if (header) {
+				header.addEventListener('click', function () {
+					card.classList.toggle('open');
+				});
+			}
+		});
+	}
+
+	/**
+	 * Submit payment — Monobank jar
 	 */
 	function initPaymentSubmit() {
-		const submitBtn = document.querySelector('.donate-submit-btn');
-
-		if (!submitBtn) {
-			return;
-		}
+		var submitBtn = document.getElementById('donateSubmit');
+		if (!submitBtn) return;
 
 		submitBtn.addEventListener('click', function (e) {
 			e.preventDefault();
 
-			// Валідація
-			if (!selectedAmount || selectedAmount < 1) {
-				alert('Будь ласка, оберіть або введіть суму');
+			var amount = getCurrentAmount();
+
+			if (!amount || amount < 1) {
+				alert('Будь ласка, введіть суму');
 				return;
 			}
 
-			if (!selectedGateway) {
-				alert('Будь ласка, оберіть спосіб оплати');
+			if (amount > 29999) {
+				alert('Максимальна сума переказу з карти — 29 999 ₴. Для більших сум скористайтеся банківським переказом.');
 				return;
 			}
 
-			// Monobank банка — пряме перенаправлення
-			if (selectedGateway === 'monobank' && sarcomaDonate.monobankJarUrl) {
-				var amountCents = selectedAmount * 100;
+			// Monobank jar redirect
+			if (typeof sarcomaDonate !== 'undefined' && sarcomaDonate.monobankJarUrl) {
+				var amountCents = amount * 100;
 				var jarUrl = sarcomaDonate.monobankJarUrl + '?a=' + amountCents;
 				window.open(jarUrl, '_blank');
-				return;
-			}
-
-			submitBtn.disabled = true;
-			var btnText = submitBtn.querySelector('.donate-submit-btn__text');
-			if (btnText) {
-				btnText.textContent = 'Обробка...';
-			}
-
-			// Отримати case_id якщо є
-			var caseId = submitBtn.getAttribute('data-case-id') || 0;
-
-			// Відправити запит на створення платежу (LiqPay / WayForPay)
-			fetch(sarcomaDonate.restUrl + 'create-payment', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-WP-Nonce': sarcomaDonate.nonce,
-				},
-				body: JSON.stringify({
-					gateway: selectedGateway,
-					amount: selectedAmount,
-					case_id: parseInt(caseId, 10),
-					type: donationType,
-				}),
-			})
-				.then(function (response) { return response.json(); })
-				.then(function (data) {
-					if (data.success && data.form_data) {
-						submitPaymentForm(data);
-					} else {
-						alert(data.error || 'Помилка створення платежу');
-						submitBtn.disabled = false;
-						if (btnText) btnText.textContent = 'Оплатити';
-					}
-				})
-				.catch(function (error) {
-					console.error('Payment error:', error);
-					alert('Помилка з\'єднання. Спробуйте пізніше.');
-					submitBtn.disabled = false;
-					if (btnText) btnText.textContent = 'Оплатити';
-				});
-		});
-	}
-
-	/**
-	 * Створити та сабмітнути форму для LiqPay / WayForPay
-	 */
-	function submitPaymentForm(data) {
-		var form = document.createElement('form');
-		form.method = data.form_data.method || 'POST';
-		form.action = data.form_data.action;
-		form.style.display = 'none';
-
-		Object.keys(data.form_data).forEach(function (key) {
-			if (key === 'action' || key === 'method') {
-				return;
-			}
-
-			var value = data.form_data[key];
-
-			if (Array.isArray(value)) {
-				value.forEach(function (v) {
-					var input = document.createElement('input');
-					input.type = 'hidden';
-					input.name = key + '[]';
-					input.value = v;
-					form.appendChild(input);
-				});
 			} else {
-				var input = document.createElement('input');
-				input.type = 'hidden';
-				input.name = key;
-				input.value = value;
-				form.appendChild(input);
+				// Fallback: direct URL
+				var amountCents = amount * 100;
+				window.open('https://send.monobank.ua/jar/8FafTNXhpf?a=' + amountCents, '_blank');
 			}
 		});
-
-		document.body.appendChild(form);
-		form.submit();
 	}
 
-	// Ініціалізація
+	// Init
 	document.addEventListener('DOMContentLoaded', function () {
-		initAmountButtons();
-		initGatewayButtons();
-		initDonationType();
+		initTabs();
+		initQuickAdd();
+		initExpandableCards();
 		initPaymentSubmit();
-		updateSubmitButton();
 	});
 })();

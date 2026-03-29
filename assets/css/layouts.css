@@ -465,6 +465,8 @@
 .home-about-image img {
 	border-radius: var(--radius-pill);
 	width: 100%;
+	min-height: 400px;
+	object-fit: cover;
 	display: block;
 }
 
@@ -533,8 +535,8 @@
 
 .about-list {
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	align-items: flex-start;
+	gap: var(--space-6);
 	margin-bottom: var(--space-10);
 }
 

@@ -10,7 +10,7 @@
 	 * Анімовані каунтери (Intersection Observer)
 	 */
 	function initCounters() {
-		const counters = document.querySelectorAll('.stat-item__number[data-count]');
+		const counters = document.querySelectorAll('.stat-item__number[data-count], .counter[data-count]');
 
 		if (!counters.length) {
 			return;
@@ -49,7 +49,7 @@
 				}
 			});
 		}, {
-			threshold: 0.3,
+			threshold: 0.1,
 		});
 
 		counters.forEach(function (counter) {

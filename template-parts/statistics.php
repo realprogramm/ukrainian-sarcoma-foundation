@@ -41,7 +41,7 @@ $about_items = array(
 					if ( $about_img ) : ?>
 						<img src="<?php echo esc_url( $about_img['url'] ); ?>" alt="<?php echo esc_attr( $about_img['alt'] ); ?>">
 					<?php else : ?>
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/about-placeholder.jpg' ); ?>" alt="<?php pll_esc_attr_e( 'Про фонд' ); ?>">
+						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/about-placeholder.svg' ); ?>" alt="<?php pll_esc_attr_e( 'Про фонд' ); ?>">
 					<?php endif; ?>
 				</div>
 

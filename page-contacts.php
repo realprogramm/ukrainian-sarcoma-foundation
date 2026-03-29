@@ -63,9 +63,11 @@ get_header();
 						<div style="margin-top: var(--space-8);">
 							<h3 style="margin-bottom: var(--space-4);"><?php pll_esc_html_e( 'Ми в соцмережах' ); ?></h3>
 							<div class="social-links">
-								<?php while ( have_rows( 'social_links', 'option' ) ) : the_row(); ?>
-									<a href="<?php echo esc_url( get_sub_field( 'url' ) ); ?>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="<?php echo esc_attr( get_sub_field( 'platform' ) ); ?>">
-										<?php echo esc_html( ucfirst( get_sub_field( 'platform' ) ) ); ?>
+								<?php while ( have_rows( 'social_links', 'option' ) ) : the_row();
+									$platform = get_sub_field( 'platform' );
+								?>
+									<a href="<?php echo esc_url( get_sub_field( 'url' ) ); ?>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="<?php echo esc_attr( $platform ); ?>">
+										<?php echo esc_html( ucfirst( $platform ) ); ?>
 									</a>
 								<?php endwhile; ?>
 							</div>

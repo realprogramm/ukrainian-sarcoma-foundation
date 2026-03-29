@@ -56,9 +56,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<h3 class="footer-title"><?php pll_esc_html_e( 'Ми в соцмережах' ); ?></h3>
 				<?php if ( function_exists( 'get_field' ) && have_rows( 'social_links', 'option' ) ) : ?>
 					<div class="social-links">
-						<?php while ( have_rows( 'social_links', 'option' ) ) : the_row(); ?>
-							<a href="<?php echo esc_url( get_sub_field( 'url' ) ); ?>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="<?php echo esc_attr( get_sub_field( 'platform' ) ); ?>">
-								<span class="social-icon social-icon--<?php echo esc_attr( sanitize_title( get_sub_field( 'platform' ) ) ); ?>"></span>
+						<?php while ( have_rows( 'social_links', 'option' ) ) : the_row();
+							$platform = get_sub_field( 'platform' );
+						?>
+							<a href="<?php echo esc_url( get_sub_field( 'url' ) ); ?>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="<?php echo esc_attr( $platform ); ?>">
+								<?php echo esc_html( ucfirst( $platform ) ); ?>
 							</a>
 						<?php endwhile; ?>
 					</div>

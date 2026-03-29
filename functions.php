@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SARCOMA_THEME_VERSION', '1.6.0' );
+define( 'SARCOMA_THEME_VERSION', '1.7.0' );
 define( 'SARCOMA_DONATE_URL', 'https://send.monobank.ua/jar/8FafTNXhpf' );
 define( 'SARCOMA_THEME_DIR', get_template_directory() );
 define( 'SARCOMA_THEME_URI', get_template_directory_uri() );

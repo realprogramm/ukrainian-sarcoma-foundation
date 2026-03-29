@@ -13,7 +13,7 @@
 	font-size: var(--text-base);
 	font-weight: 600;
 	line-height: 1.1;
-	border-radius: 8px;
+	border-radius: var(--radius-pill);
 	border: 2px solid transparent;
 	cursor: pointer;
 	transition: background-color 0.3s, border-color 0.3s, color 0.3s;
@@ -87,14 +87,26 @@
 	font-size: var(--text-sm);
 }
 
+/* --- Button Wrap (like Unbound) --- */
+.btn-wrap {
+	margin: 0 -10px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+.btn-wrap a,
+.btn-wrap button {
+	margin: 0 5px;
+}
+
 /* --- Progress Bar --- */
 .progress-bar {
 	width: 100%;
 	height: 24px;
-	background-color: var(--color-bg-alt);
-	border-radius: var(--radius-full);
+	background-color: #F8FAFF;
+	border-radius: var(--radius-pill);
 	overflow: hidden;
-	border: 1px solid var(--color-border);
 }
 
 .progress-bar--small {
@@ -103,13 +115,11 @@
 
 .progress-bar__fill {
 	height: 100%;
-	background: linear-gradient(90deg, var(--color-primary), var(--color-success));
-	border-radius: var(--radius-full);
+	background: var(--color-primary);
+	border-radius: var(--radius-pill) 0 0 var(--radius-pill);
 	transition: width 1.5s ease-out;
 	display: flex;
 	align-items: center;
-	justify-content: flex-end;
-	padding-right: var(--space-2);
 	min-width: 0;
 }
 
@@ -127,17 +137,19 @@
 /* --- Cards --- */
 .case-card {
 	background: var(--color-bg);
-	border-radius: var(--radius-lg);
+	border-radius: var(--radius-pill);
 	overflow: hidden;
-	box-shadow: var(--shadow);
+	border: 1px solid rgba(241, 91, 67, 0.28);
+	padding: 15px;
 	transition: all var(--transition);
 	display: flex;
 	flex-direction: column;
+	margin-bottom: 30px;
 }
 
 .case-card:hover {
 	box-shadow: var(--shadow-lg);
-	transform: translateY(-4px);
+	transform: translateY(-2px);
 }
 
 .case-card--completed {
@@ -148,13 +160,25 @@
 	position: relative;
 	overflow: hidden;
 	aspect-ratio: 4 / 3;
+	border-radius: var(--radius-pill);
+	margin-bottom: var(--space-6);
 }
 
 .case-card__image img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	border-radius: var(--radius-pill);
 	transition: transform var(--transition);
+}
+
+/* Progress bar overlay on image (like Unbound) */
+.case-card__image .progress-bar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	border-radius: 0;
 }
 
 .case-card:hover .case-card__image img {
@@ -166,7 +190,7 @@
 	top: var(--space-3);
 	right: var(--space-3);
 	padding: var(--space-1) var(--space-3);
-	border-radius: var(--radius-sm);
+	border-radius: var(--radius-pill);
 	font-size: var(--text-xs);
 	font-weight: 700;
 	text-transform: uppercase;
@@ -216,15 +240,54 @@
 	margin-top: var(--space-2);
 }
 
+/* Fund detail row — Unbound style */
+.case-card__fund-detail {
+	display: flex;
+	border-radius: var(--radius-pill);
+	padding: 12px 0;
+	margin-top: var(--space-4);
+	border-top: 1px solid rgba(167, 167, 167, 0.12);
+}
+
+.case-card__fund-item {
+	border-right: 2px solid rgba(167, 167, 167, 0.12);
+	width: 50%;
+	padding: 10px 20px;
+	text-align: center;
+}
+
+.case-card__fund-item:last-child {
+	border-right: none;
+}
+
+.case-card__fund-name {
+	color: #787878;
+	font-size: var(--text-xs);
+	text-transform: uppercase;
+	font-weight: 600;
+	line-height: 1.1;
+	margin-bottom: 5px;
+	display: block;
+}
+
+.case-card__fund-value {
+	font-family: var(--font-heading);
+	color: var(--color-secondary);
+	line-height: 1.1;
+	font-weight: 500;
+	font-size: var(--text-lg);
+	display: block;
+}
+
 /* --- Activity Card --- */
 .activity-card {
 	background: var(--color-bg);
-	border-radius: var(--radius-lg);
+	border-radius: var(--radius-pill);
 	padding: var(--space-8);
 	text-align: center;
 	box-shadow: var(--shadow);
 	transition: all var(--transition);
-	border: 1px solid var(--color-border);
+	border: 1px solid rgba(241, 91, 67, 0.28);
 }
 
 .activity-card:hover {
@@ -241,7 +304,7 @@
 .activity-card__image {
 	width: 100%;
 	margin-bottom: var(--space-4);
-	border-radius: var(--radius);
+	border-radius: var(--radius-pill);
 	overflow: hidden;
 }
 
@@ -295,13 +358,13 @@
 /* --- Fundraising Card --- */
 .fundraising-card {
 	background: var(--color-bg);
-	border-radius: var(--radius-xl);
+	border-radius: var(--radius-pill);
 	padding: var(--space-10);
 	box-shadow: var(--shadow-lg);
 	max-width: 700px;
 	margin: 0 auto;
 	text-align: center;
-	border: 1px solid var(--color-border);
+	border: 1px solid rgba(241, 91, 67, 0.28);
 }
 
 .fundraising-card__title {
@@ -335,8 +398,8 @@
 	align-items: center;
 	justify-content: center;
 	padding: var(--space-4);
-	border-radius: var(--radius);
-	border: 1px solid var(--color-border);
+	border-radius: var(--radius-pill);
+	border: 1px solid rgba(241, 91, 67, 0.28);
 	background: var(--color-bg);
 	transition: all var(--transition);
 	min-height: 80px;
@@ -371,10 +434,10 @@
 	max-width: 640px;
 	margin: 0 auto var(--space-16);
 	background: var(--color-bg);
-	border-radius: 20px;
+	border-radius: var(--radius-pill);
 	padding: var(--space-10) var(--space-8);
 	box-shadow: 0 4px 40px rgba(0, 0, 0, 0.08);
-	border: 1px solid var(--color-border);
+	border: 1px solid rgba(241, 91, 67, 0.28);
 }
 
 .donate-card__step {
@@ -441,7 +504,7 @@
 	gap: 8px;
 	padding: var(--space-3) var(--space-4);
 	border: 2px solid var(--color-border);
-	border-radius: 12px;
+	border-radius: var(--radius-pill);
 	background: var(--color-bg);
 	font-size: var(--text-sm);
 	font-weight: 600;
@@ -477,7 +540,7 @@
 .donate-amount-btn {
 	padding: var(--space-3) var(--space-2);
 	border: 2px solid var(--color-border);
-	border-radius: 12px;
+	border-radius: var(--radius-pill);
 	background: var(--color-bg);
 	font-size: var(--text-lg);
 	font-weight: 700;
@@ -528,7 +591,7 @@
 	width: 100%;
 	padding: var(--space-3) var(--space-4) var(--space-3) 40px;
 	border: 2px solid var(--color-border);
-	border-radius: 12px;
+	border-radius: var(--radius-pill);
 	font-size: var(--text-lg);
 	font-weight: 600;
 	transition: border-color 0.2s ease;
@@ -564,7 +627,7 @@
 	gap: 8px;
 	padding: var(--space-4) var(--space-3);
 	border: 2px solid var(--color-border);
-	border-radius: 12px;
+	border-radius: var(--radius-pill);
 	background: var(--color-bg);
 	cursor: pointer;
 	transition: all 0.2s ease;
@@ -627,7 +690,7 @@
 	width: 100%;
 	padding: var(--space-5) var(--space-6);
 	border: none;
-	border-radius: 14px;
+	border-radius: var(--radius-pill);
 	background: var(--color-primary);
 	color: #fff;
 	font-size: var(--text-lg);
@@ -657,7 +720,7 @@
 .donate-submit-btn__amount {
 	background: rgba(255, 255, 255, 0.2);
 	padding: 4px 12px;
-	border-radius: 8px;
+	border-radius: var(--radius-pill);
 	font-size: var(--text-sm);
 }
 
@@ -670,7 +733,7 @@
 	text-align: center;
 	background: var(--color-success-light);
 	padding: var(--space-10);
-	border-radius: 20px;
+	border-radius: var(--radius-pill);
 	margin-bottom: var(--space-10);
 	border: 1px solid rgba(76, 175, 80, 0.2);
 }
@@ -699,8 +762,8 @@
 	margin: 0 auto var(--space-10);
 	padding: var(--space-8);
 	background: var(--color-bg-alt);
-	border-radius: 20px;
-	border: 1px solid var(--color-border);
+	border-radius: var(--radius-pill);
+	border: 1px solid rgba(241, 91, 67, 0.28);
 }
 
 .donate-bank__title {
@@ -766,11 +829,13 @@
 	width: 100%;
 	padding: var(--space-3) var(--space-4);
 	border: 2px solid var(--color-border);
-	border-radius: var(--radius);
+	border-radius: var(--radius-pill);
 	font-family: var(--font-body);
 	font-size: var(--text-base);
 	transition: border-color var(--transition-fast);
 	color: var(--color-text);
+	min-height: 59px;
+	box-sizing: border-box;
 }
 
 .form-group input:focus,
@@ -782,6 +847,92 @@
 .form-group textarea {
 	resize: vertical;
 	min-height: 120px;
+}
+
+/* --- Contact Form Container (Unbound qsn-form style) --- */
+.qsn-form-container {
+	background-color: var(--color-primary);
+	border-radius: var(--radius-pill);
+	padding: 40px 30px 20px;
+	color: #ffffff;
+	text-align: center;
+}
+
+.qsn-form-container h3 {
+	background-color: var(--color-secondary);
+	border-radius: var(--radius-pill);
+	color: #ffffff;
+	padding: 8px 0 10px;
+	font-family: var(--font-heading);
+	font-size: var(--text-xl);
+	margin-bottom: var(--space-4);
+}
+
+.qsn-form-container p {
+	margin-bottom: 20px;
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.qsn-form-container form {
+	padding-top: 10px;
+	text-align: left;
+}
+
+.qsn-form-container .form-group {
+	margin-bottom: var(--space-4);
+}
+
+.qsn-form-container .form-group label {
+	color: #ffffff;
+}
+
+.qsn-form-container .form-group input,
+.qsn-form-container .form-group textarea {
+	border-color: rgba(255, 255, 255, 0.3);
+	background: rgba(255, 255, 255, 0.15);
+	color: #ffffff;
+	min-height: 55px;
+}
+
+.qsn-form-container .form-group input::placeholder,
+.qsn-form-container .form-group textarea::placeholder {
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.qsn-form-container .form-group input:focus,
+.qsn-form-container .form-group textarea:focus {
+	border-color: #ffffff;
+	background: rgba(255, 255, 255, 0.25);
+}
+
+.btn-block {
+	display: block;
+	width: 100%;
+}
+
+.btn-outline-white {
+	background-color: transparent;
+	color: #fff;
+	border: 2px solid #fff;
+	border-radius: var(--radius-pill);
+}
+
+.btn-outline-white:hover {
+	background-color: #fff;
+	color: var(--color-primary);
+	border-color: #fff;
+}
+
+@media screen and (min-width: 992px) {
+	.qsn-form-container {
+		margin-left: 40px;
+	}
+}
+
+@media screen and (max-width: 991px) {
+	.qsn-form-container {
+		margin-top: 40px;
+	}
 }
 
 /* --- Activity Detail (page-activities.php) --- */

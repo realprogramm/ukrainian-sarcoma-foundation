@@ -18,75 +18,45 @@ get_header();
 <div class="page-content">
 	<div class="container">
 		<div class="contacts-grid">
-			<!-- Форма зворотного зв'язку -->
-			<div>
-				<h2 class="donate-section__title"><?php pll_esc_html_e( 'Напишіть нам' ); ?></h2>
-
-				<?php
-				// Contact Form 7
-				if ( shortcode_exists( 'contact-form-7' ) ) {
-					echo do_shortcode( '[contact-form-7 id="202" title="Контактна форма"]' );
-				} else {
-					// Fallback — кастомна форма
-				?>
-				<form class="contact-form" id="contact-form" method="post">
-					<?php wp_nonce_field( 'sarcoma_contact_form', 'sarcoma_contact_nonce' ); ?>
-					<div class="form-group">
-						<label for="contact-name"><?php pll_esc_html_e( "Ім'я" ); ?></label>
-						<input type="text" id="contact-name" name="contact_name" required>
-					</div>
-					<div class="form-group">
-						<label for="contact-email"><?php pll_esc_html_e( 'Email' ); ?></label>
-						<input type="email" id="contact-email" name="contact_email" required>
-					</div>
-					<div class="form-group">
-						<label for="contact-message"><?php pll_esc_html_e( 'Повідомлення' ); ?></label>
-						<textarea id="contact-message" name="contact_message" rows="5" required></textarea>
-					</div>
-					<button type="submit" class="btn btn-primary"><?php pll_esc_html_e( 'Надіслати' ); ?></button>
-				</form>
-				<?php } ?>
-			</div>
-
-			<!-- Контактна інформація -->
-			<div>
+			<!-- Контактна інформація (ліво) -->
+			<div class="contact-detail-container">
 				<h2 class="donate-section__title"><?php pll_esc_html_e( 'Контактна інформація' ); ?></h2>
 
 				<?php if ( function_exists( 'get_field' ) ) : ?>
-					<ul class="contact-info-list">
+					<div class="contact-details-list">
 						<?php $email = get_field( 'contact_email', 'option' ); ?>
 						<?php if ( $email ) : ?>
-							<li class="contact-info-item">
+							<div class="contact-info-item">
 								<span class="contact-info-item__icon">📧</span>
 								<div class="contact-info-item__content">
 									<h4><?php pll_esc_html_e( 'Email' ); ?></h4>
 									<a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a>
 								</div>
-							</li>
+							</div>
 						<?php endif; ?>
 
 						<?php $phone = get_field( 'contact_phone', 'option' ); ?>
 						<?php if ( $phone ) : ?>
-							<li class="contact-info-item">
+							<div class="contact-info-item">
 								<span class="contact-info-item__icon">📞</span>
 								<div class="contact-info-item__content">
 									<h4><?php pll_esc_html_e( 'Телефон' ); ?></h4>
 									<a href="tel:<?php echo esc_attr( preg_replace( '/[^+0-9]/', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a>
 								</div>
-							</li>
+							</div>
 						<?php endif; ?>
 
 						<?php $address = get_field( 'contact_address', 'option' ); ?>
 						<?php if ( $address ) : ?>
-							<li class="contact-info-item">
+							<div class="contact-info-item">
 								<span class="contact-info-item__icon">📍</span>
 								<div class="contact-info-item__content">
 									<h4><?php pll_esc_html_e( 'Адреса' ); ?></h4>
 									<p><?php echo esc_html( $address ); ?></p>
 								</div>
-							</li>
+							</div>
 						<?php endif; ?>
-					</ul>
+					</div>
 
 					<!-- Соцмережі -->
 					<?php if ( have_rows( 'social_links', 'option' ) ) : ?>
@@ -105,6 +75,35 @@ get_header();
 				<?php else : ?>
 					<p class="text-muted"><?php pll_esc_html_e( 'Контактна інформація буде додана найближчим часом.' ); ?></p>
 				<?php endif; ?>
+			</div>
+
+			<!-- Форма зворотного зв'язку (право — оранжевий блок) -->
+			<div class="qsn-form-container">
+				<h3><?php pll_esc_html_e( 'Напишіть нам' ); ?></h3>
+				<p><?php pll_esc_html_e( 'Зв\'яжіться з нами — ми завжди відкриті до спілкування' ); ?></p>
+
+				<?php
+				if ( shortcode_exists( 'contact-form-7' ) ) {
+					echo do_shortcode( '[contact-form-7 id="202" title="Контактна форма"]' );
+				} else {
+				?>
+				<form class="contact-form" id="contact-form" method="post">
+					<?php wp_nonce_field( 'sarcoma_contact_form', 'sarcoma_contact_nonce' ); ?>
+					<div class="form-group">
+						<input type="text" id="contact-name" name="contact_name" placeholder="<?php pll_esc_attr_e( "Ваше ім'я" ); ?>" required>
+					</div>
+					<div class="form-group">
+						<input type="email" id="contact-email" name="contact_email" placeholder="<?php pll_esc_attr_e( 'Ваш Email' ); ?>" required>
+					</div>
+					<div class="form-group">
+						<input type="tel" id="contact-phone" name="contact_phone" placeholder="<?php pll_esc_attr_e( 'Ваш телефон' ); ?>">
+					</div>
+					<div class="form-group">
+						<textarea id="contact-message" name="contact_message" rows="4" placeholder="<?php pll_esc_attr_e( 'Ваше повідомлення' ); ?>" required></textarea>
+					</div>
+					<button type="submit" class="btn btn-outline-white btn-block"><?php pll_esc_html_e( 'Надіслати' ); ?></button>
+				</form>
+				<?php } ?>
 			</div>
 		</div>
 

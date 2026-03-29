@@ -49,16 +49,24 @@ get_header();
 					$status    = sarcoma_get_field_fallback( 'case_status' );
 					?>
 					<article class="case-card <?php echo 'completed' === $status ? 'case-card--completed' : ''; ?>" data-status="<?php echo esc_attr( $status ); ?>">
-						<?php if ( has_post_thumbnail() ) : ?>
-							<div class="case-card__image">
-								<a href="<?php the_permalink(); ?>">
+						<div class="case-card__image">
+							<a href="<?php the_permalink(); ?>">
+								<?php if ( has_post_thumbnail() ) : ?>
 									<?php the_post_thumbnail( 'case-card' ); ?>
-								</a>
-								<?php if ( 'completed' === $status ) : ?>
-									<span class="case-card__badge case-card__badge--success"><?php pll_esc_html_e( 'Зібрано!' ); ?></span>
 								<?php endif; ?>
-							</div>
-						<?php endif; ?>
+							</a>
+							<?php if ( 'completed' === $status ) : ?>
+								<span class="case-card__badge case-card__badge--success"><?php pll_esc_html_e( 'Зібрано!' ); ?></span>
+							<?php endif; ?>
+							<?php if ( $target ) : ?>
+								<div class="progress-bar">
+									<div class="progress-bar__fill" style="width: 0%;" data-width="<?php echo esc_attr( $percent ); ?>%">
+										<span class="progress-bar__percent" style="margin-left: 15px;"><?php pll_esc_html_e( 'Зібрано' ); ?></span>
+										<span class="progress-bar__percent" style="margin-left: auto; margin-right: 15px;"><?php echo esc_html( $percent ); ?>%</span>
+									</div>
+								</div>
+							<?php endif; ?>
+						</div>
 
 						<div class="case-card__content">
 							<h2 class="case-card__title">
@@ -69,21 +77,23 @@ get_header();
 								<p class="case-card__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
 							<?php endif; ?>
 
+							<div class="btn-wrap" style="margin-bottom: var(--space-4);">
+								<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'donate' ) ) ); ?>" class="btn btn-primary btn-sm"><?php pll_esc_html_e( 'Допомогти' ); ?></a>
+								<a href="<?php the_permalink(); ?>" class="btn btn-outline btn-sm"><?php pll_esc_html_e( 'Деталі' ); ?></a>
+							</div>
+
 							<?php if ( $target ) : ?>
-								<div class="case-card__progress">
-									<div class="progress-bar progress-bar--small">
-										<div class="progress-bar__fill" style="width: 0%;" data-width="<?php echo esc_attr( $percent ); ?>%"></div>
+								<div class="case-card__fund-detail">
+									<div class="case-card__fund-item">
+										<span class="case-card__fund-name"><?php pll_esc_html_e( 'Зібрано' ); ?></span>
+										<span class="case-card__fund-value"><?php echo esc_html( sarcoma_format_amount( $collected ) ); ?></span>
 									</div>
-									<div class="case-card__amounts">
-										<span><?php echo esc_html( sarcoma_format_amount( $collected ) ); ?></span>
-										<span><?php printf( esc_html( pll__( 'з %s' ) ), esc_html( sarcoma_format_amount( $target ) ) ); ?></span>
+									<div class="case-card__fund-item">
+										<span class="case-card__fund-name"><?php pll_esc_html_e( 'Мета' ); ?></span>
+										<span class="case-card__fund-value"><?php echo esc_html( sarcoma_format_amount( $target ) ); ?></span>
 									</div>
 								</div>
 							<?php endif; ?>
-
-							<a href="<?php the_permalink(); ?>" class="btn btn-sm <?php echo 'completed' === $status ? 'btn-outline' : 'btn-primary'; ?>">
-								<?php echo 'completed' === $status ? esc_html( pll__( 'Деталі' ) ) : esc_html( pll__( 'Допомогти' ) ); ?>
-							</a>
 						</div>
 					</article>
 				<?php endwhile; ?>

@@ -923,6 +923,101 @@
 	border-color: #fff;
 }
 
+/* --- CF7 inside orange container --- */
+.qsn-form-container .wpcf7 {
+	text-align: left;
+}
+
+.qsn-form-container .wpcf7 label {
+	display: block;
+	color: #fff;
+	font-weight: 600;
+	font-size: var(--text-sm);
+	margin-bottom: var(--space-4);
+}
+
+.qsn-form-container .wpcf7 input:not([type="submit"]),
+.qsn-form-container .wpcf7 textarea,
+.qsn-form-container .wpcf7 select {
+	width: 100%;
+	padding: 14px 20px;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	border-radius: var(--radius-pill);
+	background: rgba(255, 255, 255, 0.15);
+	color: #fff;
+	font-family: var(--font-body);
+	font-size: var(--text-base);
+	min-height: 55px;
+	box-sizing: border-box;
+	transition: all 0.3s ease;
+	outline: none;
+}
+
+.qsn-form-container .wpcf7 input:not([type="submit"])::placeholder,
+.qsn-form-container .wpcf7 textarea::placeholder {
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.qsn-form-container .wpcf7 input:not([type="submit"]):focus,
+.qsn-form-container .wpcf7 textarea:focus {
+	border-color: #fff;
+	background: rgba(255, 255, 255, 0.25);
+}
+
+.qsn-form-container .wpcf7 textarea {
+	border-radius: 20px;
+	min-height: 140px;
+	resize: vertical;
+}
+
+.qsn-form-container .wpcf7 input[type="submit"],
+.qsn-form-container .wpcf7-submit {
+	display: block;
+	width: 100%;
+	padding: 17px 30px;
+	background: transparent;
+	color: #fff;
+	border: 2px solid #fff;
+	border-radius: var(--radius-pill);
+	font-family: var(--font-body);
+	font-size: var(--text-base);
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin-top: var(--space-4);
+}
+
+.qsn-form-container .wpcf7 input[type="submit"]:hover,
+.qsn-form-container .wpcf7-submit:hover {
+	background: #fff;
+	color: var(--color-primary);
+	border-color: #fff;
+}
+
+.qsn-form-container .wpcf7 .wpcf7-response-output {
+	border-color: rgba(255, 255, 255, 0.5) !important;
+	color: #fff;
+	border-radius: var(--radius-pill);
+	margin: var(--space-4) 0 0;
+	padding: 12px 20px;
+}
+
+.qsn-form-container .wpcf7 .wpcf7-not-valid-tip {
+	color: #ffe0dc;
+	font-size: var(--text-xs);
+}
+
+.qsn-form-container .wpcf7 br {
+	display: none;
+}
+
+.qsn-form-container .wpcf7 p {
+	margin-bottom: var(--space-4);
+	text-align: left;
+}
+
 @media screen and (min-width: 992px) {
 	.qsn-form-container {
 		margin-left: 40px;
